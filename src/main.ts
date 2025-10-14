@@ -24,22 +24,26 @@ let growthPerSecond = 0;
 let countA = 0;
 let countB = 0;
 let countC = 0;
+let costA = 10;
+let costB = 100;
+let costC = 1000;
+const PRICE_FACTOR = 1.15;
 
 //Item A
 const upgradeBtnA = document.createElement("button");
 upgradeBtnA.id = "upgrade-a";
-upgradeBtnA.textContent = "Buy A (+0.1/sec) — Cost: 10";
+upgradeBtnA.textContent = `Buy A (+0.1/sec) — Cost: ${costA.toFixed(2)}`;
 upgradeBtnA.disabled = true;
 upgradeBtnA.style.marginTop = "8px";
 document.body.appendChild(upgradeBtnA);
 
 upgradeBtnA.addEventListener("click", () => {
-  const cost = 10;
   const rate = 0.1;
-  if (counter >= cost) {
-    counter -= cost;
+  if (counter >= costA) {
+    counter -= costA;
     growthPerSecond += rate;
     countA += 1;
+    costA = Number((costA * PRICE_FACTOR).toFixed(2));
     renderCounter();
   }
 });
@@ -47,18 +51,18 @@ upgradeBtnA.addEventListener("click", () => {
 //Item B
 const upgradeBtnB = document.createElement("button");
 upgradeBtnB.id = "upgrade-b";
-upgradeBtnB.textContent = "Buy B (+2/sec) — Cost: 100";
+upgradeBtnB.textContent = `Buy B (+2/sec) — Cost: ${costB.toFixed(2)}`;
 upgradeBtnB.disabled = true;
 upgradeBtnB.style.marginLeft = "8px";
 document.body.appendChild(upgradeBtnB);
 
 upgradeBtnB.addEventListener("click", () => {
-  const cost = 100;
   const rate = 2.0;
-  if (counter >= cost) {
-    counter -= cost;
+  if (counter >= costB) {
+    counter -= costB;
     growthPerSecond += rate;
     countB += 1;
+    costB = Number((costB * PRICE_FACTOR).toFixed(2));
     renderCounter();
   }
 });
@@ -66,18 +70,18 @@ upgradeBtnB.addEventListener("click", () => {
 // Item C
 const upgradeBtnC = document.createElement("button");
 upgradeBtnC.id = "upgrade-c";
-upgradeBtnC.textContent = "Buy C (+50/sec) — Cost: 1000";
+upgradeBtnC.textContent = `Buy C (+50/sec) — Cost: ${costC.toFixed(2)}`;
 upgradeBtnC.disabled = true;
 upgradeBtnC.style.marginLeft = "8px";
 document.body.appendChild(upgradeBtnC);
 
 upgradeBtnC.addEventListener("click", () => {
-  const cost = 1000;
   const rate = 50.0;
-  if (counter >= cost) {
-    counter -= cost;
+  if (counter >= costC) {
+    counter -= costC;
     growthPerSecond += rate;
     countC += 1;
+    costC = Number((costC * PRICE_FACTOR).toFixed(2));
     renderCounter();
   }
 });
@@ -95,9 +99,13 @@ function renderCounter() {
     growthPerSecond.toFixed(2)
   }/sec)`;
 
-  upgradeBtnA.disabled = counter < 10;
-  upgradeBtnB.disabled = counter < 100;
-  upgradeBtnC.disabled = counter < 1000;
+  upgradeBtnA.disabled = counter < costA;
+  upgradeBtnB.disabled = counter < costB;
+  upgradeBtnC.disabled = counter < costC;
+
+  upgradeBtnA.textContent = `Buy A (+0.1/sec) — Cost: ${costA.toFixed(2)}`;
+  upgradeBtnB.textContent = `Buy B (+2/sec) — Cost: ${costB.toFixed(2)}`;
+  upgradeBtnC.textContent = `Buy C (+50/sec) — Cost: ${costC.toFixed(2)}`;
 
   statusDiv.textContent =
     `Owned — A: ${countA}  |  B: ${countB}  |  C: ${countC}`;
