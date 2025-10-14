@@ -19,9 +19,32 @@ const counterDiv = document.createElement("div");
 counterDiv.id = "counter";
 counterDiv.style.marginTop = "12px";
 document.body.appendChild(counterDiv);
+let growthPerSecond = 0;
+
+const upgradeBtn = document.createElement("button");
+upgradeBtn.id = "upgrade-btn";
+upgradeBtn.textContent = "Buy Upgrade (+1/sec) — Cost: 10";
+upgradeBtn.disabled = true;
+upgradeBtn.style.marginTop = "8px";
+document.body.appendChild(upgradeBtn);
+
+upgradeBtn.addEventListener("click", () => {
+  const cost = 10;
+  if (counter >= cost) {
+    counter -= cost;
+    growthPerSecond += 1;
+    renderCounter();
+  }
+});
 
 function renderCounter() {
-  counterDiv.textContent = `${counter.toFixed(2)} dings`;
+  const shown = Number.isInteger(counter)
+    ? counter.toString()
+    : counter.toFixed(2);
+  counterDiv.textContent = `${shown} dings  (rate: ${
+    growthPerSecond.toFixed(2)
+  }/sec)`;
+  upgradeBtn.disabled = counter < 10;
 }
 renderCounter();
 
@@ -37,8 +60,6 @@ clickBtn.addEventListener("click", () => {
 // }, 1000);
 
 //step 4
-
-const growthPerSecond = 1;
 let lastTime = performance.now();
 
 function tick(now: number) {
@@ -51,3 +72,5 @@ function tick(now: number) {
   requestAnimationFrame(tick);
 }
 requestAnimationFrame(tick);
+
+//step 5
