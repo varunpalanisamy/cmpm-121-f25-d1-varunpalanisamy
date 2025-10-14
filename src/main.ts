@@ -29,3 +29,8 @@ clickBtn.addEventListener("click", () => {
   counter += 1;
   renderCounter();
 });
+
+setInterval(() => {
+  counter += 1;
+  renderCounter();
+}, 1000);
