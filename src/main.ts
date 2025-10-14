@@ -21,7 +21,7 @@ counterDiv.style.marginTop = "12px";
 document.body.appendChild(counterDiv);
 
 function renderCounter() {
-  counterDiv.textContent = `${counter} dings`;
+  counterDiv.textContent = `${counter.toFixed(2)} dings`;
 }
 renderCounter();
 
@@ -30,7 +30,24 @@ clickBtn.addEventListener("click", () => {
   renderCounter();
 });
 
-setInterval(() => {
-  counter += 1;
+// //step 3
+// setInterval(() => {
+//   counter += 1;
+//   renderCounter();
+// }, 1000);
+
+//step 4
+
+const growthPerSecond = 1;
+let lastTime = performance.now();
+
+function tick(now: number) {
+  const dtSeconds = (now - lastTime) / 1000;
+  lastTime = now;
+
+  counter += growthPerSecond * dtSeconds;
   renderCounter();
-}, 1000);
+
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
