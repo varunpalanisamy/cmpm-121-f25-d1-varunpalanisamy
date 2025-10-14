@@ -21,21 +21,71 @@ counterDiv.style.marginTop = "12px";
 document.body.appendChild(counterDiv);
 let growthPerSecond = 0;
 
-const upgradeBtn = document.createElement("button");
-upgradeBtn.id = "upgrade-btn";
-upgradeBtn.textContent = "Buy Upgrade (+1/sec) — Cost: 10";
-upgradeBtn.disabled = true;
-upgradeBtn.style.marginTop = "8px";
-document.body.appendChild(upgradeBtn);
+let countA = 0;
+let countB = 0;
+let countC = 0;
 
-upgradeBtn.addEventListener("click", () => {
+//Item A
+const upgradeBtnA = document.createElement("button");
+upgradeBtnA.id = "upgrade-a";
+upgradeBtnA.textContent = "Buy A (+0.1/sec) — Cost: 10";
+upgradeBtnA.disabled = true;
+upgradeBtnA.style.marginTop = "8px";
+document.body.appendChild(upgradeBtnA);
+
+upgradeBtnA.addEventListener("click", () => {
   const cost = 10;
+  const rate = 0.1;
   if (counter >= cost) {
     counter -= cost;
-    growthPerSecond += 1;
+    growthPerSecond += rate;
+    countA += 1;
     renderCounter();
   }
 });
+
+//Item B
+const upgradeBtnB = document.createElement("button");
+upgradeBtnB.id = "upgrade-b";
+upgradeBtnB.textContent = "Buy B (+2/sec) — Cost: 100";
+upgradeBtnB.disabled = true;
+upgradeBtnB.style.marginLeft = "8px";
+document.body.appendChild(upgradeBtnB);
+
+upgradeBtnB.addEventListener("click", () => {
+  const cost = 100;
+  const rate = 2.0;
+  if (counter >= cost) {
+    counter -= cost;
+    growthPerSecond += rate;
+    countB += 1;
+    renderCounter();
+  }
+});
+
+// Item C
+const upgradeBtnC = document.createElement("button");
+upgradeBtnC.id = "upgrade-c";
+upgradeBtnC.textContent = "Buy C (+50/sec) — Cost: 1000";
+upgradeBtnC.disabled = true;
+upgradeBtnC.style.marginLeft = "8px";
+document.body.appendChild(upgradeBtnC);
+
+upgradeBtnC.addEventListener("click", () => {
+  const cost = 1000;
+  const rate = 50.0;
+  if (counter >= cost) {
+    counter -= cost;
+    growthPerSecond += rate;
+    countC += 1;
+    renderCounter();
+  }
+});
+
+const statusDiv = document.createElement("div");
+statusDiv.id = "status";
+statusDiv.style.marginTop = "8px";
+document.body.appendChild(statusDiv);
 
 function renderCounter() {
   const shown = Number.isInteger(counter)
@@ -44,8 +94,15 @@ function renderCounter() {
   counterDiv.textContent = `${shown} dings  (rate: ${
     growthPerSecond.toFixed(2)
   }/sec)`;
-  upgradeBtn.disabled = counter < 10;
+
+  upgradeBtnA.disabled = counter < 10;
+  upgradeBtnB.disabled = counter < 100;
+  upgradeBtnC.disabled = counter < 1000;
+
+  statusDiv.textContent =
+    `Owned — A: ${countA}  |  B: ${countB}  |  C: ${countC}`;
 }
+
 renderCounter();
 
 clickBtn.addEventListener("click", () => {
